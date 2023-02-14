@@ -3,11 +3,20 @@ import './style.css';
 import { fetchProductsList } from './helpers/fetchFunctions';
 import { createProductElement } from './helpers/shopFunctions';
 
+const fLoading = () => {
+  const cDivEl = document.createElement('span');
+  cDivEl.innerHTML = 'carregando...';
+  cDivEl.className = 'loading';
+  return cDivEl;
+};
+
 const fShowProductsOnScreen = async () => {
-  const sectionProductsEl = document.querySelector('section .products');
+  const gSectionProductsEl = document.querySelector('section .products');
+  gSectionProductsEl.appendChild(fLoading());
   const arrProducts = await fetchProductsList('computador');
+  gSectionProductsEl.innerHTML = '';
   arrProducts.forEach((product) => {
-    sectionProductsEl.appendChild(createProductElement(product));
+    gSectionProductsEl.appendChild(createProductElement(product));
   });
 };
 
