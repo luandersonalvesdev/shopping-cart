@@ -1,9 +1,10 @@
 import { searchCep } from './helpers/cepFunctions';
 import './style.css';
-import { fetchProductsList } from './helpers/fetchFunctions';
-import { createProductElement } from './helpers/shopFunctions';
+import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
+import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
 
 const gSectionProductsEl = document.querySelector('section .products');
+const gCartProductsEl = document.querySelector('.cart__products');
 
 const fLoadingError = () => {
   const gSpanEl = document.querySelector('.loading');
@@ -33,5 +34,18 @@ const fShowProductsOnScreen = async () => {
 };
 
 fShowProductsOnScreen();
+
+const getFromLocalStorage = async () => {
+  const arrProductsOnLocalStorage = JSON.parse(localStorage.getItem('cartProducts'));
+  if (arrProductsOnLocalStorage) {
+    const arrPromise = arrProductsOnLocalStorage.map((id) => fetchProduct(id));
+    const arrProductsEl = await Promise.all(arrPromise)
+      .then((response) => response);
+    arrProductsEl.forEach((product) => {
+      gCartProductsEl.appendChild(createCartProductElement(product));
+    });
+  }
+};
+getFromLocalStorage();
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
