@@ -5,19 +5,11 @@ import { createProductElement } from './helpers/shopFunctions';
 
 const gSectionProductsEl = document.querySelector('section .products');
 
-const fVerifyResponseApi = async () => {
-  const response = await fetchProductsList('computador');
-  if (Array.isArray(response)) {
-    return response;
-  }
-  return false;
-};
-
 const fLoadingError = () => {
   const gSpanEl = document.querySelector('.loading');
   gSpanEl.className = 'error';
   gSpanEl.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
-}
+};
 
 const fLoading = () => {
   gSectionProductsEl.innerHTML = '';

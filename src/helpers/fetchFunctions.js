@@ -1,8 +1,13 @@
-export const fetchProduct = () => {
-  // seu código aqui
+export const fetchProduct = async (query) => {
+  if (!query) {
+    throw new Error('ID não informado');
+  }
+  return fetch(`https://api.mercadolibre.com/items/${query}`)
+    .then((response) => response.json())
+    .then((data) => data);
 };
 
-export const fetchProductsList = (query) => {
+export const fetchProductsList = async (query) => {
   if (!query) {
     throw new Error('Termo de busca não informado');
   }
