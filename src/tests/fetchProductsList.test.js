@@ -13,8 +13,11 @@ describe('Teste a função fetchProductsList', () => {
     expect(fetch).toHaveBeenCalled();
   });
 
-  // it('fetch é chamado com o endpoint correto ao executar fetchProductsList', async () => {
-  // });
+  it('fetch é chamado com o endpoint correto ao executar fetchProductsList', async () => {
+    const expected = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+    fetchProductsList('computador');
+    expect(fetch).toHaveBeenCalledWith(expected);
+  });
 
   it('Teste se o retorno da função fetchProductsList com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo.', async () => {
     const actual = await fetchProductsList('computador');
