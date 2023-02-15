@@ -5,6 +5,7 @@ import { createProductElement, createCartProductElement } from './helpers/shopFu
 
 const gSectionProductsEl = document.querySelector('section .products');
 const gCartProductsEl = document.querySelector('.cart__products');
+const gTotalPriceEl = document.querySelector('.total-price');
 
 const fLoadingError = () => {
   const gSpanEl = document.querySelector('.loading');
@@ -47,5 +48,11 @@ const getFromLocalStorage = async () => {
   }
 };
 getFromLocalStorage();
+
+window.onload = () => {
+  if (JSON.parse(localStorage.getItem('totalPrice'))) {
+    gTotalPriceEl.innerHTML = JSON.parse(localStorage.getItem('totalPrice'));
+  }
+};
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);

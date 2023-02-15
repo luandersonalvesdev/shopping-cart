@@ -2,6 +2,13 @@ import { removeCartID, saveCartID } from './cartFunctions';
 import { fetchProduct } from './fetchFunctions';
 
 const gCartProductsEl = document.querySelector('.cart__products');
+const gTotalPriceEl = document.querySelector('.total-price');
+let totalPrice = 0;
+if (localStorage.getItem('totalPrice')) {
+  totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
+} else {
+  totalPrice = 0;
+}
 
 // Esses comentários que estão antes de cada uma das funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições!
@@ -43,12 +50,20 @@ export const getIdFromProduct = (product) => (
   product.querySelector('span.product__id').innerText
 );
 
+const fSaveTotalPrice = (total) => {
+  localStorage.setItem('totalPrice', total);
+};
+
 /**
  * Função que remove o produto do carrinho.
  * @param {Element} li - Elemento do produto a ser removido do carrinho.
  * @param {string} id - ID do produto a ser removido do carrinho.
  */
-const removeCartProduct = (li, id) => {
+const removeCartProduct = async (li, id) => {
+  const { price } = await fetchProduct(id);
+  totalPrice -= price;
+  fSaveTotalPrice(totalPrice);
+  gTotalPriceEl.innerText = totalPrice;
   li.remove();
   removeCartID(id);
 };
@@ -128,6 +143,9 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
 
   // ADD TO CART
   cartButton.addEventListener('click', async () => {
+    totalPrice += price;
+    fSaveTotalPrice(totalPrice);
+    gTotalPriceEl.innerText = totalPrice;
     saveCartID(id);
     const product = await fetchProduct(id);
     const productEl = createCartProductElement(product);
