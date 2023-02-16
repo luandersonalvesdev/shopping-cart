@@ -6,8 +6,6 @@ const gTotalPriceEl = document.querySelector('.total-price');
 let totalPrice = 0;
 if (localStorage.getItem('totalPrice')) {
   totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
-} else {
-  totalPrice = 0;
 }
 
 // Esses comentários que estão antes de cada uma das funções são chamados de JSdoc,

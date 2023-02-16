@@ -49,10 +49,10 @@ const getFromLocalStorage = async () => {
 };
 getFromLocalStorage();
 
+document.querySelector('.cep-button').addEventListener('click', searchCep);
+
 window.onload = () => {
   if (JSON.parse(localStorage.getItem('totalPrice'))) {
     gTotalPriceEl.innerHTML = JSON.parse(localStorage.getItem('totalPrice'));
   }
 };
-
-document.querySelector('.cep-button').addEventListener('click', searchCep);
